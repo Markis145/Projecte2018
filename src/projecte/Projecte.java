@@ -19,6 +19,9 @@ public class Projecte {
 
     private static int opcio;
 
+    private static Scanner ent = new Scanner(System.in);
+    
+    private static char SiNo;
     /**
      * @param args the command line arguments
      */
@@ -31,6 +34,10 @@ public class Projecte {
 
     }
 
+    public static void tractamentFinal() {
+        ent.close();
+    }
+    
     public static void demanarOpcio() {
         Scanner ent = new Scanner(System.in);
         System.out.println("--------Men ú---------");
@@ -54,7 +61,7 @@ public class Projecte {
 
         switch (opcio) {
             case 0:
-                System.out.println("babai");
+                System.out.println("Bye bye");
                 break;
             case 1:
                 introduirVaporitzador();
@@ -103,15 +110,111 @@ public class Projecte {
                 esElec = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
             } while (esElec != 'S' && esElec != 'N');
             array[i].setElectronic(esElec == 'S');
+            
             System.out.println("\nPreu: ");
             array[i].setPreu(ent.skip("[\r\n]*").nextInt());
+            array[i].setOmplit(true);
         } else {
             System.out.println("No caben més vaporitzador, borra'n un primer");
         }
     }
 
     public static void modificarVaporitzador() {
-
+        Scanner ent = new Scanner(System.in);
+        Vaporitzador v = null;
+        int cont = 1, i = 0;
+        v = array[i];
+        
+        
+        for (; i < array.length && SiNo != 'F'; i++) {
+            if (array[i].isOmplit()) {
+                System.out.format("\nVaporitzador %d:\n", cont++);
+                System.out.println(array[i].toString());
+                do {
+                    System.out.println("\nVols modificar el vaporitzador(S/N) o finalitzar la cerca (F)?;");
+                    SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+                } while (SiNo != 'S' && SiNo != 'N' && SiNo != 'F');
+            }
+            if (SiNo == 'S') {
+                break;
+            }
+        }
+        
+        
+        if (SiNo == 'S') {
+            System.out.println("\nModel: " + array[i].getModel());
+            do {
+                System.out.println("\nVols modificar el model? (S/N):");
+                SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (SiNo != 'S' && SiNo != 'N');
+            if (SiNo == 'S') {
+                System.out.println("Introdueix el model: ");
+                array[i].setModel(ent.skip("[\r\n]*").nextLine());
+            }
+        }
+        
+        System.out.println("\nMarca: " + array[i].getMarca());
+            do {
+                System.out.println("\nVOls modificar la marca?(S/N):");
+                SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (SiNo != 'S' && SiNo != 'N');
+            if (SiNo == 'S') {
+                System.out.println("Introdueix la marca: ");
+                array[i].setMarca(ent.skip("[\r\n]*").nextLine());
+        }
+            
+        System.out.println("\nNúmero de bateries: " + array[i].getNumbat());
+            do {
+                System.out.println("\nVols modificar el nombre de bateries?(S/N):");
+                SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (SiNo != 'S' && SiNo != 'N');
+            if (SiNo == 'S') {
+                System.out.println("Introdueix el nombre de bateries: ");
+                array[i].setNumB(ent.skip("[\r\n]*").nextInt());
+        }
+            
+        System.out.println("\nWattatge màxim: " + array[i].getWatts());
+            do {
+                System.out.println("\nVols modificar el wattage màxim?(S/N):");
+                SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (SiNo != 'S' && SiNo != 'N');
+            if (SiNo == 'S') {
+                System.out.println("Introdueix el wattatge màxim: ");
+                array[i].setWatts(ent.skip("[\r\n]*").nextInt());
+        }
+            
+        if (array[i].isElectronic()) {
+                System.out.println("\nÉs electrònic");
+            } else {
+                System.out.println("\nÉs mecànic");
+            }
+            do {
+                System.out.println("\nVols modificar si es electrònic o mecànic?(S/N):");
+                SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (SiNo != 'S' && SiNo != 'N');
+            if (SiNo == 'S') {
+                char esElec;
+                do {
+                    System.out.println("Es electrònic?(S/N) ");
+                    esElec = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+                } while (esElec != 'S' && esElec != 'N');
+                if (esElec == 's') {
+                    v.setElectronic(true);
+                } else {
+                    v.setElectronic(false);
+                }
+        }
+            
+        System.out.println("\nPreu: " + array[i].getPreu());
+            do {
+                System.out.println("\nVols modificar el preu?(S/N):");
+                SiNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (SiNo != 'S' && SiNo != 'N');
+            if (SiNo == 'S') {
+                System.out.println("Introdueix el preu: ");
+                array[i].setPreu(ent.skip("[\r\n]*").nextInt());
+        }
+    
     }
 
     public static void borrarVaporitzador() {
@@ -144,6 +247,7 @@ public class Projecte {
 
     public static void llistarVaporitzador() {
         Scanner ent = new Scanner(System.in);
+        
         boolean algun = false;
         char siNo = 'S';
         int i;
@@ -168,6 +272,28 @@ public class Projecte {
     }
 
     public static void recuperarVaporitzador() {
-
+        Scanner ent = new Scanner(System.in);
+        char siNo = 'N';
+        int cont = 0, i;
+        for (i = 0; i < array.length && siNo != 'S' && siNo != 'F'; i++) {
+            if (!array[i].isOmplit()) {
+                System.out.format("\nVaporitzador %d:\n", ++cont);
+                System.out.println(array[i].toString());
+                do {
+                    System.out.println("\nVols recuperar el vaporitzador(S/N) o finalitzar la cerca (F)?:");
+                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+                } while (siNo != 'S' && siNo != 'N' && siNo != 'F');
+            }
+            if (siNo == 'S') {
+                break;
+            }
+        }
+        if (siNo == 'S') {
+            array[i].setOmplit(true);
+            System.out.println("Vaporitzador recuperat correctament.");
+        } else {
+            if(cont==0) System.out.println("No hi ha vaporitzadors per recuperar");
+            else System.out.println("Vaporitzador no recuperat.");
+        }
     }
 }
