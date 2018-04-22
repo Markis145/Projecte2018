@@ -9,7 +9,7 @@ package projecte;
  *
  * @author marcmestre
  */
-public class Vaporitzadors {
+public class Vaporitzador {
     private String model;
     private String marca;
     private int numbat;
